@@ -26,7 +26,7 @@ def compress_movie(src_path: str, is_high_quality: bool):
         os.rename(dst_path, os.path.splitext(src_path)[0] + ".mp4")
 
 
-def compress_folder(dir_path: str, high_quality: bool):
+def compress_movies_in_folder(dir_path: str, high_quality: bool):
     file_paths = glob.glob(os.path.join(dir_path, "*.mp4"))
     for path in file_paths:
         compress_movie(path, high_quality)
@@ -34,4 +34,4 @@ def compress_folder(dir_path: str, high_quality: bool):
 
 
 if __name__ == "__main__": 
-    compress_folder('/tmp/test_folder', True)
+    compress_movies_in_folder('/tmp/test_folder', True)
