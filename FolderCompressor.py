@@ -1,8 +1,8 @@
+import argparse
 import os
 import os.path
 import subprocess
 import uuid
-import shutil
 import glob
 
 
@@ -27,6 +27,7 @@ def compress_movie(src_path: str, is_high_quality: bool):
 
 
 def compress_movies_in_folder(dir_path: str, high_quality: bool):
+
     file_paths = glob.glob(os.path.join(dir_path, "*.mp4"))
     for path in file_paths:
         compress_movie(path, high_quality)
@@ -34,4 +35,10 @@ def compress_movies_in_folder(dir_path: str, high_quality: bool):
 
 
 if __name__ == "__main__": 
-    compress_movies_in_folder('/tmp/test_folder', True)
+    parser = argparse.ArgumentParser(description="Movie Compressor.")
+    parser.add_argument('input_folder')
+    parser.add_argument('--low_quality', action='store_true')
+
+    args = parser.parse_args()
+
+    compress_movies_in_folder(args.input_folder, not args.low_quality)
