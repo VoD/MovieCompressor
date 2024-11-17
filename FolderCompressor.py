@@ -28,7 +28,8 @@ def compress_movie(src_path: str, is_high_quality: bool):
 
 def compress_movies_in_folder(dir_path: str, high_quality: bool):
 
-    file_paths = glob.glob(os.path.join(dir_path, "*.mp4"))
+    file_paths = glob.glob(os.path.join(dir_path, "**/*.mp4"), recursive=True)
+    file_paths.extend(glob.glob(os.path.join(dir_path, "**/*.mov"), recursive=True))
     for path in file_paths:
         compress_movie(path, high_quality)
 
@@ -36,9 +37,10 @@ def compress_movies_in_folder(dir_path: str, high_quality: bool):
 
 if __name__ == "__main__": 
     parser = argparse.ArgumentParser(description="Movie Compressor.")
-    parser.add_argument('input_folder')
+    parser.add_argument('input_folders', nargs='*')
     parser.add_argument('--low_quality', action='store_true')
 
     args = parser.parse_args()
 
-    compress_movies_in_folder(args.input_folder, not args.low_quality)
+    for folder in args.input_folders:
+        compress_movies_in_folder(folder, not args.low_quality)
